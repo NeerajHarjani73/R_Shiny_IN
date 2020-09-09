@@ -29,25 +29,20 @@ population_df <- df %>%
                 Population,
                 Rural.population,
                 Urban.population)
+population_df <- population_df[order(population_df$State.or.union.territory),]
 
 #Getting Shapefile
 map <-
   readOGR("./Data/maps-master/maps-master/States/Admin2.shp",
           stringsAsFactors = FALSE)
-map2 <- st_read("./Data/maps-master/maps-master/States/Admin2.shp",
-                stringsAsFactors = FALSE)
-
-map_df <- fortify(map2)
+map <- map[order(map$ST_NM),]
 
 #Realized that naming convention in shapefile and population_df is different,make it similar
 
-sort(population_df$State.or.union.territory) == sort(map$ST_NM)
+population_df$State.or.union.territory == map$ST_NM
 
-population_df$State.or.union.territory[34] = 'Andaman & Nicobar'
-population_df$State.or.union.territory[20] = 'Jammu & Kashmir'
-
-population_df <-
-  population_df[order(match(population_df$State.or.union.territory, map$ST_NM)), ]
+population_df$State.or.union.territory[1] = 'Andaman & Nicobar'
+population_df$State.or.union.territory[14] = 'Jammu & Kashmir'
 
 #Merging geojson with data for ggplot
 combined_df <- merge(
