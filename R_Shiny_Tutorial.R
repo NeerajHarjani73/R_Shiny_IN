@@ -1,3 +1,4 @@
+#RShinyTutorial
 library(shiny)
 
 ui <- navbarPage(title = "Random generator",
